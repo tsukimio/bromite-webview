@@ -16,17 +16,24 @@ jobs:
           
       - name: Checkout Repo
         uses: actions/checkout@v2
-
-      - name: Get Id
-        id: mId
-        run: echo "::set-output name=id::$(grep "^id=" module.prop|cut -d'=' -f2)"
+        
+      - name: Download latest Bromite
+        id: mDownload
+        run: wget https://github.com/bromite/bromite/releases/latest/download/arm64_SystemWebView.apk && mv arm64_SystemWebView.apk system/app/
+        
         
       - name: Get Version
         id: mVersion
-        run: echo "::set-output name=version::$(grep "^version=" module.prop|cut -d'=' -f2)"
+        run: curl -fsSLI -o /dev/null -w %{url_effective} https://github.com/bromite/bromite/releases/latest && echo
+
+
+      - name: Get Id
+        id: mId
+        run: curl -fsSLI -o /dev/null -w %{url_effective} https://github.com/bromite/bromite/releases/latest | cut -f2 -d"."| sed 's/.*\///' && echo
+        
 
       - name: Build project
-        run: zip -r "${{ steps.mId.outputs.id }}.${{ steps.mVersion.outputs.version }}.zip" . -x "README.md" ".git/*" ".github/*" 
+        run: zip -r "${{ steps.mId.outputs.id }}.${{ steps.mVersion.outputs.version }}.zip" . -x "README.md" ".git/*" ".github/*" "docs/*" 
 
       - name: Create Release
         id: create_release
