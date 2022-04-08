@@ -1,0 +1,9 @@
+id=bromite-webview
+name=Bromite Webview
+versionCode=100
+version=v100.0.4896.57
+author=Bromite contributors, Chromium Contributors, & tsukimio contributors
+description=Install Bromite webview to /system/app so that it can be used as a webview.
+support=https://github.com/tsukimio/bromite-webview
+minMagisk=2400
+updateJson=https://tsukimio.github.io/bromite-webview/update.json
